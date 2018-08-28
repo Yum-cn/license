@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<label style="font-weight: bold;">生成License授权</label>
+<br>
+	<form class="form-horizontal m-t" id="signupForm">
+
+        <table>
+	        <tr>
+		        <td>名称：</td>
+		        <td><input id="name" name="name" class="form-control" /></td>
+	        </tr>
+        
+	        <tr>
+		        <td>MAC地址：</td>
+		        <td><input id="macAddress" name="macAddress" class="form-control" /></td>
+	        </tr>
+        
+	        <tr>
+		        <td>授权数量：</td>
+		        <td><input id="number" name="number" class="form-control" /></td>
+	        </tr>
+        
+	        <tr>
+		        <td>授权有效期时间：</td>
+		        <td><input class="Wdate" type="text" id="expirationDate" name="expirationDate"
+                    onClick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss'});"
+                    placeholder="授权有效期时间" /></td>
+	        </tr>
+	        
+	        <tr>
+                <td>生成授权文件目录：</td>
+                <td><input id="filePath" name="filePath" class="form-control" value="D:\tmp\"/></td>
+            </tr>
+        
+        </table>
+
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-3">
+				<button type="button" onclick="save()" class="btn btn-primary">提交</button>
+			</div>
+		</div>
+	</form>
+
+<script src="/js/jquery.min.js?v=2.1.4"></script>
+<script type="text/javascript">
+function save() {
+	
+	if(!$("#filePath").val()){
+		alert("请输入生成授权文件的保存目录！");
+		return false;
+	}
+	
+    $.ajax({
+        cache : true,
+        type : "POST",
+        url : "/license/generate/",
+        data : $('#signupForm').serialize(),// 你的formid
+        async : false,
+        error : function(request) {
+        },
+        success : function(data) {
+        	alert("授权文件已生成，请在 "+$("#filePath").val()+"目录下查看！");
+            console.log(data);
+
+        }
+    });
+
+}
+</script>
+
+	<script src="/js/My97DatePicker/WdatePicker.js"></script>
+</body>
+</html>
